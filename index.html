@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synergize Payroll Solutions - Pricing Calculator (2025 Rates)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom light green theme for Synergize */
+        :root {
+            --synergize-light-green: #A7F3D0; /* Tailwind green-200 */
+            --synergize-green: #34D399;      /* Tailwind green-400 */
+            --synergize-dark-green: #065F46; /* Tailwind green-800 */
+            --synergize-text: #064E3B;       /* Tailwind green-900 */
+        }
+        .synergize-gradient-bg {
+            background: linear-gradient(135deg, var(--synergize-light-green) 0%, var(--synergize-green) 100%);
+        }
+        .synergize-accent-text {
+            color: var(--synergize-dark-green);
+        }
+        .synergize-button {
+            background-color: var(--synergize-green);
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .synergize-button:hover {
+            background-color: var(--synergize-dark-green);
+        }
+        .synergize-input {
+            border-color: var(--synergize-green);
+            transition: box-shadow 0.3s ease;
+        }
+        .synergize-input:focus {
+            box-shadow: 0 0 0 2px var(--synergize-light-green);
+            border-color: var(--synergize-dark-green);
+        }
+        .slider-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--synergize-dark-green);
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .slider-thumb::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--synergize-dark-green);
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+        }
+        /* Fortune 500 style enhancements */
+        .f500-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            border: 1px solid #e5e7eb; /* Light gray border */
+        }
+        .f500-header {
+            font-size: 2rem; /* 32px */
+            font-weight: 700;
+            color: var(--synergize-text);
+        }
+        .f500-subheader {
+            font-size: 1.125rem; /* 18px */
+            color: #4B5563; /* Gray-600 */
+        }
+        .f500-label {
+            font-weight: 600;
+            color: var(--synergize-text);
+        }
+        .f500-total {
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            color: var(--synergize-dark-green);
+        }
+        .f500-disclaimer {
+            font-size: 0.875rem; /* 14px */
+            color: #6B7280; /* Gray-500 */
+        }
+        .input-disclaimer {
+            font-size: 0.75rem; /* 12px */
+            color: #9CA3AF; /* Gray-400 */
+            margin-top: -0.25rem; /* Adjust spacing */
+        }
+        .pricing-table th, .pricing-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .pricing-table th {
+            background-color: #f9fafb; /* Gray-50 */
+            font-weight: 600;
+            color: var(--synergize-text);
+        }
+        .formula-item {
+            font-size: 0.8rem;
+            color: #4B5563;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
+
+    <div class="w-full max-w-4xl mx-auto">
+        <header class="text-center mb-10">
+            <div class="inline-block p-3 synergize-gradient-bg rounded-xl mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h1 class="f500-header">Synergize Payroll Solutions</h1>
+            <p class="f500-subheader mt-2">Estimate Your Monthly Investment (2025 Rates)</p>
+        </header>
+
+        <div class="f500-card p-6 sm:p-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div>
+                        <label for="numEmployees" class="block text-sm f500-label mb-2">Number of Active Employees: <span id="employeeCountDisplay" class="font-bold synergize-accent-text">100</span></label>
+                        <input type="range" id="numEmployees" name="numEmployees" min="1" max="500" value="100" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb synergize-input">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>1</span>
+                            <span>500+</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="weeklySms" class="block text-sm f500-label mb-2">Weekly Ticket Update SMS (per week): <span id="weeklySmsDisplay" class="font-bold synergize-accent-text">0</span></label>
+                        <input type="range" id="weeklySms" name="weeklySms" min="0" max="500" value="0" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb synergize-input">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>0</span>
+                            <span>500</span>
+                        </div>
+                        <p class="input-disclaimer mt-1">This weekly count is multiplied by 4 for monthly cost estimation.</p>
+                    </div>
+
+                     <div>
+                        <label for="dailySms" class="block text-sm f500-label mb-2">Daily Ticket Update SMS (per day): <span id="dailySmsDisplay" class="font-bold synergize-accent-text">0</span></label>
+                        <input type="range" id="dailySms" name="dailySms" min="0" max="1000" value="0" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb synergize-input">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>0</span>
+                            <span>1000</span>
+                        </div>
+                        <p class="input-disclaimer mt-1">This daily count is multiplied by 30 for monthly cost estimation.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg flex flex-col items-center justify-center border border-gray-200">
+                    <h2 class="text-lg font-semibold synergize-text mb-2">Estimated Monthly Fee</h2>
+                    <p id="totalMonthlyFee" class="f500-total mb-4">E 0.00</p>
+                    <div class="w-full text-sm space-y-1 synergize-text mb-3">
+                        <div class="flex justify-between"><span>Base Subscription:</span> <span id="baseFeeDisplay">E 0.00</span></div>
+                        <div class="flex justify-between items-start">
+                            <span class="mr-1">SMS Charges:</span>
+                            <div class="text-right">
+                                <span id="smsFeeDisplay">E 0.00</span>
+                                <span id="weeklySmsCalculationNote" class="block text-xs text-gray-500" style="display: none;">(Weekly SMS est. ×4)</span>
+                                <span id="dailySmsCalculationNote" class="block text-xs text-gray-500" style="display: none;">(Daily SMS est. ×30)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full text-xs text-gray-600 space-y-1 mt-2 border-t border-gray-200 pt-2">
+                        <p class="font-semibold text-gray-700 mb-2">Monthly Fee Calculation</p>
+                        <div class="space-y-2">
+                            <div class="flex items-start">
+                                <span class="font-medium text-gray-700 w-32">Base Cost:</span>
+                                <span class="text-gray-600">Employees × Tier Rate</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="font-medium text-gray-700 w-32">Weekly SMS:</span>
+                                <span class="text-gray-600">(SMS/week × 4) × Tier Rate</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="font-medium text-gray-700 w-32">Daily SMS:</span>
+                                <span class="text-gray-600">(SMS/day × 30) × Tier Rate</span>
+                            </div>
+                            <div class="flex items-start mt-2 pt-2 border-t border-gray-200">
+                                <span class="font-medium text-gray-700 w-32">Total:</span>
+                                <span class="text-gray-600">Base + Weekly SMS + Daily SMS</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="requestQuoteBtn" class="synergize-button w-full py-3 px-4 rounded-lg font-semibold mt-6 text-base hover:shadow-lg">
+                        Request a Detailed Quote
+                    </button>
+                    <p class="f500-disclaimer mt-4 text-center">
+                        This is an estimate only based on 2025 pricing. Actual fees may vary. Excludes once-off setup, custom development, and on-site training fees. All fees are exclusive of VAT. Monthly estimates for SMS assume a 4-week month and 30-day month respectively.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="f500-card p-6 sm:p-10 mt-10">
+            <h2 class="text-xl font-semibold synergize-text mb-6 text-center">Our Transparent Pricing Tiers (2025)</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 pricing-table rounded-lg shadow">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col">Category (Staff Size)</th>
+                            <th scope="col">Price per Employee (Monthly)</th>
+                            <th scope="col">Price per SMS (Weekly Ticket Update)</th>
+                            <th scope="col">Price per SMS (Daily Ticket Update)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td>1 - 90</td>
+                            <td>E 17.00</td>
+                            <td>E 2.50</td>
+                            <td>E 0.70</td>
+                        </tr>
+                        <tr>
+                            <td>91 - 180</td>
+                            <td>E 15.90</td>
+                            <td>E 1.875</td>
+                            <td>E 0.60</td>
+                        </tr>
+                        <tr>
+                            <td>181 - 250</td>
+                            <td>E 15.30</td>
+                            <td>E 1.625</td>
+                            <td>E 0.55</td>
+                        </tr>
+                        <tr>
+                            <td>251+</td>
+                            <td>E 14.80</td>
+                            <td>E 1.25</td>
+                            <td>E 0.50</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-gray-500 mt-4 text-center">Note: Per SMS rates are also determined by the staff size category.</p>
+        </div>
+
+
+        <footer class="text-center mt-10 py-6">
+            <p class="text-sm text-gray-500">&copy; <span id="currentYear"></span> Synergize Solutions (Pty) Ltd. All rights reserved.</p>
+            <p class="text-xs text-gray-400 mt-1">Empowering Eswatini's Businesses with Smart Payroll.</p>
+        </footer>
+    </div>
+
+    <script>
+        // DOM Elements
+        const numEmployeesInput = document.getElementById('numEmployees');
+        const employeeCountDisplay = document.getElementById('employeeCountDisplay');
+        
+        const weeklySmsInput = document.getElementById('weeklySms');
+        const weeklySmsDisplay = document.getElementById('weeklySmsDisplay');
+        const dailySmsInput = document.getElementById('dailySms');
+        const dailySmsDisplay = document.getElementById('dailySmsDisplay');
+
+        const totalMonthlyFeeDisplay = document.getElementById('totalMonthlyFee');
+        const baseFeeDisplay = document.getElementById('baseFeeDisplay');
+        const smsFeeDisplay = document.getElementById('smsFeeDisplay');
+        const weeklySmsCalculationNote = document.getElementById('weeklySmsCalculationNote');
+        const dailySmsCalculationNote = document.getElementById('dailySmsCalculationNote');
+        const requestQuoteBtn = document.getElementById('requestQuoteBtn');
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // --- Pricing Configuration (Data Synergize Pricing - 2025) ---
+        const baseFeeTiers2025 = [
+            { limit: 90, rate: 17.00 },
+            { limit: 180, rate: 15.90 },
+            { limit: 250, rate: 15.30 },
+            { limit: Infinity, rate: 14.80 } 
+        ];
+
+        const weeklySmsRateTiers2025 = [
+            { limit: 90, rate: 2.50 },
+            { limit: 180, rate: 1.875 },
+            { limit: 250, rate: 1.625 },
+            { limit: Infinity, rate: 1.25 }
+        ];
+
+        const dailySmsRateTiers2025 = [
+            { limit: 90, rate: 0.70 },
+            { limit: 180, rate: 0.60 },
+            { limit: 250, rate: 0.55 },
+            { limit: Infinity, rate: 0.50 }
+        ];
+        // --- End Pricing Configuration ---
+
+        // Function to get the correct rate from a tiered structure
+        function getTieredRate(employeeCount, tiers) {
+            for (const tier of tiers) {
+                if (employeeCount <= tier.limit) {
+                    return tier.rate;
+                }
+            }
+            return tiers[tiers.length - 1].rate; 
+        }
+
+        // Function to calculate base subscription fee
+        function calculateBaseFee(employeeCount) {
+            const rate = getTieredRate(employeeCount, baseFeeTiers2025);
+            return employeeCount * rate;
+        }
+
+        // Function to calculate SMS fee
+        function calculateSmsFee(employeeCount) {
+            let totalSmsCost = 0;
+            let weeklySmsCost = 0;
+            let dailySmsCost = 0;
+            
+            const numWeeklySmsPerWeek = parseInt(weeklySmsInput.value, 10);
+            const estimatedMonthlyWeeklySms = numWeeklySmsPerWeek * 4; 
+            const numDailySmsPerDay = parseInt(dailySmsInput.value, 10);
+            const estimatedMonthlyDailySms = numDailySmsPerDay * 30;
+
+            if (numWeeklySmsPerWeek > 0) {
+                const weeklyRate = getTieredRate(employeeCount, weeklySmsRateTiers2025);
+                weeklySmsCost = estimatedMonthlyWeeklySms * weeklyRate;
+            }
+
+            if (numDailySmsPerDay > 0) {
+                const dailyRate = getTieredRate(employeeCount, dailySmsRateTiers2025);
+                dailySmsCost = estimatedMonthlyDailySms * dailyRate;
+            }
+            
+            totalSmsCost = weeklySmsCost + dailySmsCost;
+            return { 
+                totalSmsCost, 
+                hasWeeklySms: numWeeklySmsPerWeek > 0,
+                hasDailySms: numDailySmsPerDay > 0
+            };
+        }
+
+        // Function to update all calculations and display
+        function updatePricing() {
+            const employeeCount = parseInt(numEmployeesInput.value, 10);
+            employeeCountDisplay.textContent = employeeCount;
+            weeklySmsDisplay.textContent = weeklySmsInput.value;
+            dailySmsDisplay.textContent = dailySmsInput.value;
+
+            const baseFee = calculateBaseFee(employeeCount);
+            const smsResult = calculateSmsFee(employeeCount);
+            const totalMonthlyFee = baseFee + smsResult.totalSmsCost;
+
+            baseFeeDisplay.textContent = `E ${baseFee.toFixed(2)}`;
+            smsFeeDisplay.textContent = `E ${smsResult.totalSmsCost.toFixed(2)}`;
+            
+            weeklySmsCalculationNote.style.display = (smsResult.hasWeeklySms && smsResult.totalSmsCost > 0) ? 'block' : 'none';
+            dailySmsCalculationNote.style.display = (smsResult.hasDailySms && smsResult.totalSmsCost > 0) ? 'block' : 'none';
+            
+            totalMonthlyFeeDisplay.textContent = `E ${totalMonthlyFee.toFixed(2)}`;
+        }
+
+        // Event Listeners
+        numEmployeesInput.addEventListener('input', updatePricing);
+        weeklySmsInput.addEventListener('input', updatePricing);
+        dailySmsInput.addEventListener('input', updatePricing);
+        
+        requestQuoteBtn.addEventListener('click', () => {
+            const employeeCount = numEmployeesInput.value;
+            const weeklySmsCount = weeklySmsInput.value;
+            const dailySmsCount = dailySmsInput.value;
+            const estimatedTotal = totalMonthlyFeeDisplay.textContent;
+
+            const subject = encodeURIComponent("Payroll Solution Quote Request");
+            const body = encodeURIComponent(
+                `Hello Inceptum Solutions Team,\n\nI've used the online pricing calculator and would like a detailed quote based on the following estimates:\n\n- Number of Active Employees: ${employeeCount}\n- Weekly Ticket Update SMS (per week): ${weeklySmsCount}\n- Daily Ticket Update SMS (per day): ${dailySmsCount}\n\n- Estimated Monthly Fee: ${estimatedTotal}\n\nPlease provide a detailed quote and any further information.\n\nThank you,\n[Your Name]\n[Your Company Name]\n[Your Contact Number]`
+            );
+            window.location.href = `mailto:info@inceptumsolutions.co.za?subject=${subject}&body=${body}`;
+        });
+        
+        // Initial calculation on page load
+        updatePricing();
+
+    </script>
+</body>
+</html>
